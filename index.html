@@ -67,40 +67,7 @@
 
  <div class="container_box_wireless">
             <p>Wireless Settings</p>
-       <!--    <div class="container_box_wireless_div_checkbox">
-                <input type="checkbox" id="enable_wifi" name="wireless"  checked  ng-model="is_checked" value="1">
-                <label for="enable_wifi" class="label_checkbox">Enable Wifi:</label>
-              </div>
-              <div class="container_box_wireless_input_text">
-                  <div class="container_box_wireless_input_text_submenu">
-                      
-                  <label for="wireless_network_name" ng-class="{button_radio_hide: is_checked != '1'}" >Wireless Network Name: <span>*</span>
-                
-                </label>                 
-                  
-                
-                   <select  class="submenu" id="wireless_network_name" name="users" ng-click="select()" ng-model="input" ng-disabled="!is_checked" ng-required="checked" value="4">
-                        <option class="option_please_select" value="">--Please Select--</option>
-                        <option class="option" value="{{wirelessName.name}}" ng-repeat="wirelessName in wirelessNameList | orderBy:sort:true">{{wirelessName.name}}</option>
-                        
-                        </select>    
-                       
-<button class="reset_wifi" ng-click="update()" ng-disabled="!is_checked" ng-class="{reset_wifi_able: is_checked == '1'}" >
-    <img src="assets/refreshGrey.png" alt="#">
-</button>
 
-                    </div>
-               </div>
-              <div class="container_box_wireless_div_checkbox">
-                <input type="checkbox" id="enable_wireless_security" name="wireless" ng-model="checked" value="1">
-                <label for="enable_wireless_security"  class="label_checkbox">Enable Wireless Security:</label>
-              </div>
-              <div class="container_box_wireless_input_text_checkbox">
-                  <label for="security_key" ng-class="{button_radio_hide: checked != '1'}" id="security_key_label">Security Key: <span>*</span></label>
-                   <input type="text" id="security_key"  ng-model="inputKey" ng-disabled="!checked" ng-required="checked" value="{'':}">
-               </div>
-
---> 
 
 <div class="container_box_wireless_div_checkbox">
         <input type="checkbox" id="enable_wifi" name="wireless">
@@ -108,15 +75,22 @@
       </div>
       <div class="container_box_wireless_input_text">
           <div class="container_box_wireless_input_text_submenu">
-          <label for="wireless_network_name"id="wireless_network_name_label" class="button_radio_hide">Wireless Network Name: <span>*</span></label>                 
+          <label for="wireless_network_name" id="wireless_network_name_label" class="button_radio_hide">Wireless Network Name: <span>*</span></label>                 
+          
+          <select 
+          ng-model="selected" 
+        ng-options="wirelessName.name as wirelessName.name for  wirelessName in wirelessNameList | orderBy:['-favorite', '-strength']"
+          class="submenu" id="wireless_network_name" name="users" disabled >
+            <option class="option_please_select" value="">--Please Select--</option>
+          </select>
           
         
-           <select  class="submenu" id="wireless_network_name" name="users" disabled>
+          <!--<select  class="submenu" id="wireless_network_name" name="users" disabled>
                 <option class="option_please_select" value="">--Please Select--</option> orderBy:['group','sub']"
                 <option class="option" value="{{wirelessName.name}}" ng-repeat="wirelessName in wirelessNameList | filter: { favorite: 'true' }| orderBy:sort2:true">{{wirelessName.name}}</option>
                 <option class="option" value="{{wirelessName.name}}" ng-repeat="wirelessName in wirelessNameList | filter: { favorite: 'false' }| orderBy:sort2:true">{{wirelessName.name}}</option>
                 
-                </select>    
+                </select>    --> 
                
 <button class="reset_wifi" id="reset_wifi" disabled ng-click="update()">
 <img src="assets/refreshGrey.png" alt="#">
