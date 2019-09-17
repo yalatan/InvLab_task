@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="css/style.css">
+    <title>Labinvent</title>
+    <link href="https://fonts.googleapis.com/css?family=Chilanka|Open+Sans+Condensed:300&display=swap" rel="stylesheet">
+    <script src="js/jquery-3.4.0.min.js"></script>
+    <script src="js/angular.min.js"></script>
+    <script src="js/clientApp.js"></script>
+</head>
+
+<body ng-app="clientApp" ng-controller="clientsBaseCtrl">
+
+    <div class="container">
+        <section id="clients" class="section_client_base">
+            <div class="close_all" ng-click="closeall()">
+                <a href="index.html">
+                    <p class="button_green">close</p>
+                </a>
+            </div>
+            <div class="content">
+                <h2 class="name_client_base">Clients Base</h2>
+                <div class="wrap_content">
+                    <div>
+
+                        <input ng-model="clientSearch" type="text" class="search_input" placeholder="Search: enter Last Name  or First Name">
+
+                    </div>
+                    <div>
+                        <p class="button_green" ng-click="opennewclientcard()">Add new client</p>
+                    </div>
+
+                </div>
+
+                <table ng-show="clients" class="table">
+                    <thead>
+                        <tr class="thead">
+                            <th>№</th>
+                            <th ng-click="sortSet('firstname')">
+                                <span ng-show="sortBy != 'firstname'">First Name</span>
+
+                            </th>
+                            <th ng-click="sortSet('lastname')">
+                                <span ng-show="sortBy != 'lastname'">Last Name</span>
+
+                            </th>
+
+
+                        </tr>
+
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="client in clients | filter:clientSearch track by client.id  ">
+                            <td class="order_table">{{$index + 1}}</td>
+                            <td ng-click="clientCardOpen( client.firstname,client.lastname)">
+                                <span>{{client.firstname}}</span>
+                            </td>
+                            <td ng-click="clientCardOpen( client.firstname,client.lastname)"> <span>{{client.lastname}}</span></td>
+
+
+                        </tr>
+                    </tbody>
+                </table>
+                <p ng-show="reqStatus || reqStatusText" class="alert alert-danger">
+                    При загрузке данных произошла ошибка {{reqStatus}} {{reqStatusText}}
+                </p>
+
+
+        </section>
+
+        <!--/////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+
+        <section id="newclientCard" ng-show="opennewclient" class="section_client_base absolute">
+
+            <!--кнопки -->
+            <div class="clientCard">
+                <h2 class="name_client_base">New Client Card</h2>
+                <div class="clientCard_buttons">
+                    <!--сохранить клиента -->
+                    <div class="clientCard_button" id="savenewclient">
+                        <button class="button_green" ng-click="savenewclient()">Save new client</button>
+                    </div>
+                    <!--закрыть страницу -->
+                    <div class="clientCard_button" id="closepage" ng-click="closenewclientcard()">
+                        <button class="button_green">&#10008;</button>
+                    </div>
+                </div>
+
+            </div>
+            <!-- карточка клиента-->
+            <div class="wrap_clientCard">
+                <div>
+                    <div class="discription_client_name">
+                        <p>First Name</p><input type="text" name="firstname" id="firstname" ng-model="newclientfirstname" required></div>
+                    <div class="discription_client_name">
+                        <p>Last Name</p><input type="text" name="lastname" id="lastname" ng-model="newclientlastname" required></div>
+                    <div class="discription_client_name">
+                        <p>Date of Birth</p><input type="text" name="dateOfBirth" id="dateOfBirth" ng-model="newclientdateOfBirth"></div>
+                    <div class="discription_client_name">
+                        <p>Address</p><input type="text" name="adress" id="adress" ng-model="newclientadress"></div>
+                    <div class="discription_client_name">
+                        <p>Phone</p><input type="text" name="phone" id="phone" ng-model="newclientphone"></div>
+                    <div class="discription_client_name">
+                        <p>Email</p><input type="text" name="email" id="email" ng-model="newclientemail"></div>
+
+                </div>
+                <div class="list_cars">
+
+                    <div class="discription_client">
+                        <div>
+
+
+                            <div>
+                                <p class="list_cars_header">Car </p>
+                            </div>
+                            <div class="discription_client_name">
+                                <p>Make</p><input type="text" name="carmake" id="carmake" ng-model="newclientcarmake" required></div>
+                            <div class="discription_client_name">
+                                <p>Model</p><input type="text" name="carmodel" id="carmodel" ng-model="newclientcarmodel"></div>
+                            <div class="discription_client_name">
+                                <p>Year</p><input type="text" name="caryear" id="caryear" ng-model="newclientcaryear" required></div>
+                            <div class="discription_client_name">
+                                <p>VIN</p><input type="text" name="carvin" id="carvin" ng-model="newclientcarvin"></div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        </section>
+
+        <!--/////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+        <section id="clientCard" ng-show="open" class="section_client_base absolute">
+            <!--кнопки -->
+            <div class="clientCard">
+                <h2 class="name_client_base">Client Card</h2>
+                <div class="clientCard_buttons">
+
+                    <div class="clientCard_button" id="closepage" ng-click="closepage()">
+                        <p class="button_green">&#10008;</p>
+                    </div>
+                </div>
+            </div>
+            <!-- карточка клиента-->
+            <div class="wrap_clientCard">
+                <div class="discription_client">
+                    <div class="discription_client_name">
+                        <p>First Name</p><input type="text" name="firstname" id="firstname" ng-model="clientforcardopen.firstname" disabled></div>
+                    <div class="discription_client_name">
+                        <p>Last Name</p><input type="text" name="lastname" id="lastname" ng-model="clientforcardopen.lastname" disabled></div>
+                    <div class="discription_client_name">
+                        <p>Date of Birth</p><input type="text" name="dateOfBirth" id="dateOfBirth" ng-model="clientforcardopen.dateOfBirth" disabled></div>
+                    <div class="discription_client_name">
+                        <p>Address</p><input type="text" name="adress" id="adress" ng-model="clientforcardopen.adress" disabled></div>
+                    <div class="discription_client_name">
+                        <p>Phone</p><input type="text" name="phone" id="phone" ng-model="clientforcardopen.phone" disabled></div>
+                    <div class="discription_client_name">
+                        <p>Email</p><input type="text" name="email" id="email" ng-model="clientforcardopen.email" disabled></div>
+
+                </div>
+                <div class="list_cars">
+
+                    <div class="discription_client">
+                        <div ng-repeat="car in clientforcardopen.cars track by $index">
+
+                            <div class="car_wrapper">
+                                <div class="div_list_cars_header">
+                                    <p class="list_cars_header" ng-click="opencarCard($index)">Car </p>
+                                    <div class="clientCard_buttons">
+                                        <!--редактировать машину -->
+                                        <div class="clientCard_button" id="makechange" ng-click="makechange()">
+                                            <p class="button_green">&#9998;</p>
+                                        </div>
+                                        <!--удалить машину -->
+                                        <div class="clientCard_button" id="deletecar">
+                                            <p class="button_green" ng-click="deletecar($index)">delete this car</p>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="discription_client_name">
+                                    <p>Make</p><input type="text" name="carmake" id="carmake" ng-model="car.make" ng-disabled="disabled"></div>
+                                <div class="discription_client_name">
+                                    <p>Model</p><input type="text" name="carmodel" id="carmodel" ng-model="car.model" ng-disabled="disabled"></div>
+                                <div class="discription_client_name">
+                                    <p>Year</p><input type="text" name="caryear" id="caryear" ng-model="car.year" ng-disabled="disabled"></div>
+                                <div class="discription_client_name">
+                                    <p>VIN</p><input type="text" name="carvin" id="carvin" ng-model="car.vin" ng-disabled="disabled"></div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <!--Добавить машину -->
+                    <div class="clientCard_button" id="addcar" ng-click="addcar()">
+                        <p class="button_green">Add car</p>
+
+                    </div>
+                </div>
+
+
+            </div>
+
+
+        </section>
+        <!--  /*/////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+        <section id="addnewcar" ng-show="clickaddnewcar" class="section_client_base absolute">
+            <form action="" class="newclientCard_form">
+                <!--кнопки -->
+                <div class="clientCard">
+                    <h2 class="name_client_base">Add car</h2>
+                    <div class="clientCard_buttons">
+                        <!--сохранить авто -->
+                        <div class="clientCard_button">
+                            <p class="button_green" ng-click="savenewcar()">Save new car</p>
+                        </div>
+                        <!--закрыть страницу -->
+                        <div class="clientCard_button" id="closepage" ng-click="closeaddcar()">
+                            <p class="button_green">&#10008;</p>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- карточка авто-->
+                <div class="wrap_clientCard">
+
+                    <div class="list_cars">
+
+                        <div class="discription_client">
+                            <div>
+
+
+                                <div>
+                                    <p class="list_cars_header">Car </p>
+                                </div>
+                                <div class="discription_client_name">
+                                    <p>Make</p><input type="text" name="carmake" ng-model="addnewcar_newclientcarmake" required></div>
+                                <div class="discription_client_name">
+                                    <p>Model</p><input type="text" name="carmodel" i ng-model="addnewcar_newclientcarmodel"></div>
+                                <div class="discription_client_name">
+                                    <p>Year</p><input type="text" name="caryear" ng-model="addnewcar_newclientcaryear" required></div>
+                                <div class="discription_client_name">
+                                    <p>VIN</p><input type="text" name="carvin" ng-model="addnewcar_newclientcarvin"></div>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </form>
+        </section>
+
+        <!--/////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+
+        <section id="addOrder" ng-show="openaddOrder" class="section_client_base absolute">
+            <!--кнопки -->
+            <div class="clientCard">
+                <h2 class="name_client_base">New Order</h2>
+                <div class="clientCard_buttons">
+                    <!--сохранить клиента -->
+                    <div class="clientCard_button">
+                        <button class="button_green" type="submit" ng-click="savenewOrder(radiocheck.type)">Save Order</button>
+                    </div>
+                    <!--закрыть страницу -->
+                    <div class="clientCard_button" ng-click="closenewOrder()">
+                        <button class="button_green">&#10008;</button>
+                    </div>
+                </div>
+
+            </div>
+            <!-- карточка заказов-->
+            <div class="wrap_clientCard">
+                <div>
+                    <div class="discription_client_name">
+                        <p>Date</p><input type="text" name="date" ng-model="neworderdate" required></div>
+                    <div class="discription_client_name">
+                        <p>Order Amount</p><input type="text" name="orderamount" ng-model="orderamount" required><span>$</span></div>
+                    <div class="discription_client_name">
+                        <p>Order status</p><label><input type="radio" name="contact" ng-model="radiocheck.type" value="completed">Completed</label>
+                        <label><input type="radio" name="contact" ng-model="radiocheck.type" value="in progress">In Progress</label>
+                        <label><input type="radio" name="contact" ng-model="radiocheck.type" value="cancelled">Cancelled</label>
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+        </section>
+
+        <!--/////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+        <!--/////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+        <section id="carCard" ng-show="showopencarCard" class="section_client_base absolute">
+            <!--кнопки -->
+            <div class="clientCard">
+                <h2 class="name_client_base">Car Card</h2>
+                <div class="clientCard_buttons">
+                    <div class="clientCard_button" ng-click="openneworder()">
+                        <p class="button_green">Add New Order</p>
+                    </div>
+                    <div class="clientCard_button" id="closepage" ng-click="closepagecarcard()">
+                        <p class="button_green">&#10008;</p>
+                    </div>
+                </div>
+            </div>
+            <div class="carCard">
+                <p class="name_client_base"><span>Make: </span>{{carforcarcard.make}}</p>
+                <p class="name_client_base"><span>Model: </span>{{carforcarcard.model}}</p>
+                <p class="name_client_base"><span>Year: </span>{{carforcarcard.year}}</p>
+                <p class="name_client_base"><span>VIN: </span>{{carforcarcard.vin}}</p>
+            </div>
+
+            <!-- заказы сервиса автомобиля-->
+            <div class="wrap_clientCard">
+                <div class="discription_client">
+                    <table class="table">
+                        <thead>
+                            <tr class="thead">
+                                <th>№</th>
+                                <th><span>Date</span> </th>
+                                <th> <span>Amount Order</span></th>
+                                <th> <span>Order Status</span> </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="order in carforcarcard.order">
+                                <!--| filter:clientSearch | orderBy:sortBy:sortRev-->
+                                <td class="order_table">{{$index + 1}}</td>
+                                <td>
+                                    <span>{{order.dateOrder}}</span>
+                                </td>
+                                <td> <span>{{order.orderAmount}}</span></td>
+                                <td> <span>{{order.orderStatus}}</span></td>
+
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+
+
+
+            </div>
+
+
+        </section>
+        <!--  /*/////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+
+        </div>
+</body>
+
+</html>

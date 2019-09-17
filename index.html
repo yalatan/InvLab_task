@@ -1,169 +1,35 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="myApp">
+<html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="css/style.css">    
+    <link rel="stylesheet" href="css/style.css">
     <title>Labinvent</title>
-    <script src="js/angular.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Chilanka|Open+Sans+Condensed:300&display=swap" rel="stylesheet">
+    <script src="js/jquery-3.4.0.min.js"></script>
     <script src="js/script.js"></script>
-    <script src="js/app.js"></script>
 </head>
-<body ng-controller="myCtrl">
+
+<body>
+
     <div class="container">
 
-<div class="container_box">
+        <div class="content discription_client_name">
+            <form class="login_form">
+                <div class="wr"><label class="login_name" for="login">NAME</label>
+                    <input type="text" id="login" placeholder="Admin"></div>
+                <div class="wr"> <label class="login_name" for="pass">PASSWORD</label>
+                    <input type="password" id="pass" placeholder="12345"></div>
+                <a href="index1.html" class="button_green" type="submit" id="login_form_button">SUBMIT</a>
 
-    <form class="form">
+            </form>
 
-        <div class="container_box_ethernet">
-          <p>Ethernet Settings</p>
-          <div class = "container_box_div">
-              <button class="button_radio button_radio_checked" id="ethernet_button_radio_ip_automatically" ></button>
-              <span class="container_box_text" id="ethernet__ip_automatically_span">Obtain an IP address automatically (DHCP/BootP)</span>              
-          </div>
-         
-          <div class = "container_box_div">
-                <button class="button_radio" id="ethernet_button_radio_ip_choose"></button>
-              <span class="container_box_text" id="ethernet_ip_choose_span">Use the following IP address:  </span> 
-          </div>
-                            <div class="container_box_ethernet_input_text">
-                                <label for="ethernet_ip_adress" class="ip_choose button_radio_hide" >IP address: <span>*</span></label> 
-                                <input type="text" class="ip_choose_input" id = "ethernet_ip_adress" disabled pattern="^(?=.*[^\.]$)((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.?){4}$">
-                            </div>
-
-                            <div class="container_box_ethernet_input_text">
-                                <label for="ethernet_subnet_mask" class="ip_choose button_radio_hide" >Subnet Mask: <span>*</span></label> 
-                                <input type="text" class="ip_choose_input" id="ethernet_subnet_mask" disabled >
-                                </div> 
-                                <div class="container_box_ethernet_input_text"> 
-                                    <label for="ethernet_default_gateway" class="ip_choose button_radio_hide" >Default Gateway:</label> 
-                                    <input type="text" class="ip_choose_input"  id="ethernet_default_gateway" disabled>
-                            </div> 
-                            
-            
-          <div class = "container_box_div">
-                <button class="button_radio button_radio_checked" id="ethernet_button_radio_dns_automatically"></button>
-              <span class="container_box_text"  id="ethernet_dns_automatically_span">Obtain DNS server address automatically</span>
-          </div>  
-              
-          <div class = "container_box_div">
-                
-                <button class="button_radio"  id="ethernet_button_radio_dns_choose"></button>
-              <span class="container_box_text" id="ethernet_dns_choose_span">Use the following DS server address:</span>
-          </div>
-          <div class="container_box_ethernet_input_text">
-              <label for="ethernet_preferred_dns"   class="dns_choose button_radio_hide">Preferred DNS server: <span>*</span></label> 
-              <input type="text" class="dns_choose_input" id="ethernet_preferred_dns" disabled >
-            </div> <div class="container_box_ethernet_input_text">  
-                <label for="ethernet_alternative_dns"  class="dns_choose button_radio_hide">Alternative DNS server:</label> 
-                <input type="text" class="dns_choose_input"  id="ethernet_alternative_dns" disabled>
-           </div>    
         </div>
 
-
-
-
- <div class="container_box_wireless">
-            <p>Wireless Settings</p>
-
-
-<div class="container_box_wireless_div_checkbox">
-        <input type="checkbox" id="enable_wifi" name="wireless">
-        <label for="enable_wifi" class="label_checkbox">Enable Wifi:</label>
-      </div>
-      <div class="container_box_wireless_input_text">
-          <div class="container_box_wireless_input_text_submenu">
-          <label for="wireless_network_name" id="wireless_network_name_label" class="button_radio_hide">Wireless Network Name: <span>*</span></label>                 
-          
-          <select 
-          ng-model="selected" 
-        ng-options="wirelessName.name as wirelessName.name for  wirelessName in wirelessNameList | orderBy:['-favorite', '-strength']"
-          class="submenu" id="wireless_network_name" name="users" disabled >
-            <option class="option_please_select" value="">--Please Select--</option>
-          </select>
-          
-        
-          <!--<select  class="submenu" id="wireless_network_name" name="users" disabled>
-                <option class="option_please_select" value="">--Please Select--</option> orderBy:['group','sub']"
-                <option class="option" value="{{wirelessName.name}}" ng-repeat="wirelessName in wirelessNameList | filter: { favorite: 'true' }| orderBy:sort2:true">{{wirelessName.name}}</option>
-                <option class="option" value="{{wirelessName.name}}" ng-repeat="wirelessName in wirelessNameList | filter: { favorite: 'false' }| orderBy:sort2:true">{{wirelessName.name}}</option>
-                
-                </select>    --> 
-               
-<button class="reset_wifi" id="reset_wifi" disabled ng-click="update()">
-<img src="assets/refreshGrey.png" alt="#">
-</button>
-
-            </div>
-       </div>
-      <div class="container_box_wireless_div_checkbox">
-        <input type="checkbox" id="enable_wireless_security" name="wireless" >
-        <label for="enable_wireless_security"  class="label_checkbox">Enable Wireless Security:</label>
-      </div>
-      <div class="container_box_wireless_input_text_checkbox">
-          <label for="security_key" id="security_key_label" class="button_radio_hide">Security Key: <span>*</span></label>
-           <input type="text" id="security_key" disabled >
-       </div>
-
-
-
-
-
-
-               <div  class = "container_box_div">
-                    <button class="button_radio button_radio_checked" id="wireless_button_radio_ip_automatically"></button>
-               <span class="container_box_text" id="wireless_ip_automatically_span">Obtain an IP address automatically (DHCP/BootP)</span> 
-          </div>
-         
-          <div class = "container_box_div">
-                <button class="button_radio" id="wireless_button_radio_ip_choose"></button>
-               <span class="container_box_text" id="wireless_ip_choose_span">Use the following IP address:  </span> 
-          </div>
-           <div class="container_box_wireless_input_text">
-                <label for="wireless_ip_adress" class="wireless_ip_choose button_radio_hide">IP address: <span>*</span></label> 
-                <input type="text" class="wireless_ip_choose_input" id="wireless_ip_adress" disabled pattern="^(?=.*[^\.]$)((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.?){4}$">
-           </div>
-
-           <div class="container_box_wireless_input_text">
-                <label for="wireless_subnet_mask" class="wireless_ip_choose button_radio_hide">Subnet Mask: <span>*</span></label> 
-                <input type="text" class="wireless_ip_choose_input" id="wireless_subnet_mask" disabled >
-            </div> 
-            <div class="container_box_wireless_input_text"> 
-                    <label for="wireless_default_gateway" class="wireless_ip_choose button_radio_hide" >Default Gateway:</label> 
-                    <input type="text" class="wireless_ip_choose_input" id="wireless_default_gateway" disabled >
-           </div> 
-          
-
-<div class = "container_box_div">
-        <button class="button_radio button_radio_checked" id="wireless_button_radio_dns_automatically"></button>
-      <span class="container_box_text"  id="wireless_dns_automatically_span">Obtain DNS server address automatically</span>
-  </div>   
-              
-          <div class = "container_box_div">
-                <button class="button_radio"  id="wireless_button_radio_dns_choose"></button>
-                <span class="container_box_text" id="wireless_dns_choose_span">Use the following DS server address:</span>
-            </div>
-            <div class="container_box_wireless_input_text">
-                <label for="wireless_preferred_dns"   class="wireless_dns_choose button_radio_hide">Preferred DNS server: <span>*</span></label> 
-                <input type="text" class="wireless_dns_choose_input"   id="wireless_preferred_dns"  disabled>
-              </div> <div class="container_box_wireless_input_text">  
-                  <label for="wireless_alternative_dns"  class="wireless_dns_choose button_radio_hide">Alternative DNS server:</label> 
-                  <input type="text" class="wireless_dns_choose_input"  id="wireless_alternative_dns" disabled>
-           </div>  
-                
-        </div>
-        <div class="container_box_total">
-            <button type="submit" class="button_checked" id="button_checked">Submit</button>
-            <button type="cancel" class="button_not_checked" id="cancel">Cancel</button> <!-- в button добавить onclick="#"-->
-        </div>
-    </form>
-
-   
-</div>
 
     </div>
-
 </body>
+
 </html>
